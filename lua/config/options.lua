@@ -4,6 +4,7 @@
 
 vim.opt.background = "light"
 vim.opt.clipboard = "unnamedplus"
+vim.opt.undofile = false -- Keep undo history in memory, not across restarts.
 
 if vim.g.vscode then
   -- Use the extension's clipboard bridge, not terminal escape sequences.
