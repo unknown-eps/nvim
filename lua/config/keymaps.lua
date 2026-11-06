@@ -38,6 +38,12 @@ end
 
 -- VS Code owns its editor layout; these window mappings are for terminal Neovim.
 if not vim.g.vscode then
+  for _, key in ipairs({ "<C-~>", "<C-`>" }) do
+    vim.keymap.set({ "n", "t" }, key, function()
+      Snacks.terminal.focus(nil, { cwd = LazyVim.root() })
+    end, { desc = "Toggle terminal (Root Dir)" })
+  end
+
   for _, key in ipairs({ "<Up>", "<Down>", "<Left>", "<Right>" }) do
     vim.keymap.set("n", key, "<Nop>", { desc = "Arrow movement disabled in Normal mode" })
   end
