@@ -9,8 +9,8 @@
 
 local group = vim.api.nvim_create_augroup("mode_line_numbers", { clear = true })
 local function update_numbers(event)
-  -- Leave terminals, help windows and plugin panels alone.
-  if vim.bo.buftype ~= "" then
+  -- VS Code's editable documents use acwrite; still skip terminals and panels.
+  if vim.bo.buftype ~= "" and not (vim.g.vscode and vim.bo.buftype == "acwrite") then
     return
   end
   local insert = vim.fn.mode():sub(1, 1) == "i"
@@ -22,6 +22,16 @@ local function update_numbers(event)
   -- vscode-neovim also synchronizes these options with its active editor.
   vim.wo.number = true
   vim.wo.relativenumber = not insert
+  if vim.g.vscode then
+    -- Update the actual VS Code editor; do not depend on delayed option sync.
+    require("vscode").eval_async([[
+      const editor = vscode.window.activeTextEditor;
+      if (!editor || (args.uri && editor.document.uri.toString() !== args.uri)) return;
+      editor.options.lineNumbers = args.insert
+        ? vscode.TextEditorLineNumbersStyle.On
+        : vscode.TextEditorLineNumbersStyle.Relative;
+    ]], { args = { insert = insert, uri = vim.b.vscode_uri } })
+  end
 end
 vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave", "BufWinEnter", "WinEnter" }, {
   group = group,
