@@ -38,6 +38,19 @@ end
 
 -- VS Code owns its editor layout; these window mappings are for terminal Neovim.
 if not vim.g.vscode then
+  local maximized_terminal
+  vim.keymap.set({ "n", "t" }, "<S-Esc>", function()
+    if maximized_terminal and maximized_terminal:buf_valid() then
+      maximized_terminal:toggle()
+    else
+      maximized_terminal = Snacks.terminal.open(nil, {
+        cwd = LazyVim.root(),
+        count = 99, -- Separate from the regular Ctrl+/ terminal.
+        win = { position = "float", width = 0, height = 0, border = "none" },
+      })
+    end
+  end, { desc = "Toggle maximized terminal" })
+
   for _, key in ipairs({ "<C-~>", "<C-`>" }) do
     vim.keymap.set({ "n", "t" }, key, function()
       Snacks.terminal.focus(nil, { cwd = LazyVim.root() })
