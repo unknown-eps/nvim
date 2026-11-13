@@ -81,6 +81,8 @@ if not vim.g.vscode then
     end
   end, { desc = "Close split, buffer, or Neovim" })
 
+  vim.keymap.set("n", "<C-w><C-q>", "<Nop>", { desc = "Prevent accidental Ctrl-held quit" })
+
   local function definition_in(layout)
     vim.lsp.buf.definition({
       on_list = function(result)
