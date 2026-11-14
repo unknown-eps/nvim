@@ -7,11 +7,16 @@ return {
     "saghen/blink.cmp",
     opts = {
       keymap = {
-        ["<CR>"] = { "fallback" },
+        ["<CR>"] = { "select_and_accept", "fallback" },
         ["<C-y>"] = { "fallback" },
-        ["<Tab>"] = { "select_and_accept", "snippet_forward", "fallback" },
+        ["<C-space>"] = { "select_next", "show", "fallback" },
+        ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
         ["<C-d>"] = { "scroll_documentation_down", "fallback" },
         ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+      },
+      completion = {
+        -- Browsing suggestions must not change the buffer before Enter.
+        list = { selection = { auto_insert = false } },
       },
     },
   },

@@ -97,6 +97,27 @@ end
 
 -- VS Code owns its editor layout; these window mappings are for terminal Neovim.
 if not vim.g.vscode then
+  -- Match VS Code's documentation shortcut (replaces Vim's Select-mode gh).
+  vim.keymap.set("n", "gh", function()
+    vim.lsp.buf.hover()
+  end, { desc = "Show hover documentation" })
+
+  -- Noice hides documentation on cursor movement, but not on Escape.
+  -- In terminal Neovim, Ctrl+[ sends the same key code as Escape.
+  for _, mode in ipairs({ "n", "i", "s" }) do
+    local escape = vim.fn.maparg("<Esc>", mode, false, true)
+    vim.keymap.set(mode, "<Esc>", function()
+      vim.schedule(function()
+        local docs = package.loaded["noice.lsp.docs"]
+        if docs then
+          docs.on_close()
+        end
+      end)
+      -- Keep LazyVim's search clearing and snippet cancellation.
+      return escape.callback and escape.callback() or "<Esc>"
+    end, { expr = true, desc = "Escape, clear hlsearch, and dismiss documentation" })
+  end
+
   local maximized_terminal
   vim.keymap.set({ "n", "t" }, "<S-Esc>", function()
     if maximized_terminal and maximized_terminal:buf_valid() then
