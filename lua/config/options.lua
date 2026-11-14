@@ -8,8 +8,8 @@ vim.opt.undofile = false -- Keep undo history in memory, not across restarts.
 
 if vim.g.vscode then
   vim.opt.laststatus = 2
-  vim.opt.statusline = "NORMAL"
-  vim.opt.showmode = false -- The explicit statusline label covers every mode.
+  vim.opt.statusline = "%{mode()}"
+  vim.opt.showmode = false -- The statusline shows the current abbreviated mode.
   -- Use the extension's clipboard bridge, not terminal escape sequences.
   if not vim.g.vscode_clipboard then
     vim.cmd("runtime vscode/clipboard.lua")
