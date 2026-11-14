@@ -7,6 +7,8 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.undofile = false -- Keep undo history in memory, not across restarts.
 
 if vim.g.vscode then
+  -- Wait indefinitely for mapping suffixes, e.g. Ctrl+w followed by q.
+  vim.opt.timeout = false
   vim.opt.laststatus = 2
   vim.opt.statusline = "%{mode()}"
   vim.opt.showmode = false -- The statusline shows the current abbreviated mode.
