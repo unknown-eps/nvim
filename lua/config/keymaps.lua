@@ -90,6 +90,17 @@ if vim.g.vscode then
   bridge("n", "<C-Down>", "workbench.action.decreaseViewHeight")
   bridge("n", "<C-Left>", "workbench.action.decreaseViewWidth")
   bridge("n", "<C-Right>", "workbench.action.increaseViewWidth")
+  vim.keymap.set("n", "<C-w>gd", function()
+    require("vscode").action("runCommands", {
+      args = {
+        commands = {
+          "workbench.action.splitEditorRight",
+          "editor.action.revealDefinition",
+        },
+      },
+    })
+  end, { desc = "Definition in vertical split" })
+
   vim.keymap.set("n", "<leader>w", "<C-w>", {
     remap = true, desc = "Windows", nowait = false,
   })
