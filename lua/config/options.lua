@@ -10,8 +10,8 @@ if vim.g.vscode then
   -- Wait indefinitely for mapping suffixes, e.g. Ctrl+w followed by q.
   vim.opt.timeout = false
   vim.opt.laststatus = 2
-  vim.opt.statusline = "%{mode()}"
-  vim.opt.showmode = false -- The statusline shows the current abbreviated mode.
+  vim.opt.statusline = "NORMAL"
+  vim.opt.showmode = false -- The explicit statusline label covers every mode.
   -- Use the extension's clipboard bridge, not terminal escape sequences.
   if not vim.g.vscode_clipboard then
     vim.cmd("runtime vscode/clipboard.lua")
