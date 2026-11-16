@@ -3,7 +3,9 @@
 -- Add any additional options here
 
 vim.opt.background = "light"
-vim.opt.clipboard = "unnamedplus"
+-- Copy ordinary yanks via TextYankPost, without sharing deletes/changes.
+-- Use "+p to paste from the system clipboard explicitly.
+vim.opt.clipboard = ""
 vim.opt.undofile = false -- Keep undo history in memory, not across restarts.
 
 if vim.g.vscode then

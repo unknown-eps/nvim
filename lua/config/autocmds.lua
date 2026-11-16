@@ -7,6 +7,18 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = vim.api.nvim_create_augroup("yank_system_clipboard", { clear = true }),
+  callback = function()
+    local event = vim.v.event
+    -- Preserve explicit named/black-hole registers; deletes and changes stay local.
+    if event.operator == "y" and event.regname == "" then
+      vim.fn.setreg("+", event.regcontents, event.regtype)
+    end
+  end,
+  desc = "Copy ordinary yanks to the system clipboard in Neovim and VS Code",
+})
+
 local group = vim.api.nvim_create_augroup("mode_line_numbers", { clear = true })
 local function update_numbers(event)
   -- VS Code's editable documents use acwrite; still skip terminals and panels.
