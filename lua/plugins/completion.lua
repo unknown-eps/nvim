@@ -7,15 +7,17 @@ return {
     "saghen/blink.cmp",
     opts = {
       keymap = {
-        ["<CR>"] = { "select_and_accept", "fallback" },
+        -- Same as VS Code: Enter inserts a newline, Tab accepts (the first item if none is
+        -- selected), Ctrl+Space opens the list or toggles its documentation.
+        ["<CR>"] = { "fallback" },
         ["<C-y>"] = { "fallback" },
-        ["<C-space>"] = { "select_next", "show", "fallback" },
-        ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+        ["<Tab>"] = { "select_and_accept", "snippet_forward", "fallback" },
         ["<C-d>"] = { "scroll_documentation_down", "fallback" },
         ["<C-u>"] = { "scroll_documentation_up", "fallback" },
       },
       completion = {
-        -- Browsing suggestions must not change the buffer before Enter.
+        -- Browsing suggestions must not change the buffer before Tab.
         list = { selection = { auto_insert = false } },
       },
     },
